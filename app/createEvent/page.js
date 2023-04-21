@@ -2,6 +2,7 @@
 
 import createEvent from '../../lib/createEvent';
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const CreateEventPage = () => {
   const [formData, setFormData] = useState({
@@ -10,16 +11,20 @@ const CreateEventPage = () => {
     description: '',
     startDate: '',
     startTime: '',
+    startDateTime: new Date(),
     endDate: '',
     endTime: '',
+    endDateTime: new Date(),
     venueName: '',
     venueAddress: '',
-    maxAttendees: '',
+    maxAttendees: 0,
   });
   const [image, setImage] = useState(null);
   const [file, setFile] = useState(null);
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   function handleCheckboxChange() {
     setChecked((prev) => !prev);
@@ -53,13 +58,15 @@ const CreateEventPage = () => {
     };
   }, [file]);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     // disable submit button
+    // show loading spinner
     setLoading(true);
 
-    // show loading spinner
-
+    // convert date and time to ISO string
+    let startDateTime = new Date(`${formData.startDate} ${formData.startTime}`);
+    let endDateTime = new Date(`${formData.endDate} ${formData.endTime}`);
     // submit photo to cloudinary
     async function uploadImage() {
       const imageForm = new FormData();
@@ -74,24 +81,24 @@ const CreateEventPage = () => {
         }
       );
 
-      const data = await response.json();
-      console.log(data);
+      const cloudinaryUpload = await response.json();
 
-      setFormData((prev) => ({
-        ...prev,
-        pictureUrl: data.secure_url,
-      }));
+      const newFormData = {
+        ...formData,
+        pictureUrl: cloudinaryUpload.secure_url,
+        startDateTime: startDateTime.toISOString(),
+        endDateTime: endDateTime.toISOString(),
+      };
+
+      setFormData(newFormData);
+
+      const eventData = await createEvent(newFormData);
+
+      setLoading(false);
+      router.push(`/events/${eventData.slug}`);
     }
-    uploadImage();
 
-    const newEvent = async (formData) => {
-      const eventData = await createEvent(formData);
-      console.log(eventData);
-
-      return eventData;
-    };
-
-    const eventData = newEvent(formData);
+    await uploadImage();
   }
 
   return (
@@ -277,6 +284,7 @@ const CreateEventPage = () => {
                   type='number'
                   name='maxAttendees'
                   id='maxAttendees'
+                  onChange={handleInputChange}
                   className='w-full p-2 border-2 rounded-md'
                 />
               </>

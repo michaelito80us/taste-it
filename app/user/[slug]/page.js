@@ -1,21 +1,34 @@
 'use client';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
-import Logo from './components/navbar/Logo';
-import Navbar from './components/navbar/Navbar';
+import Logo from './components/Logo';
+import Navbar from './components/Navbar';
+import MiniEvent from './components/MiniEvent';
+import Calendar from './components/Calendar';
+import Profile from './components/Profile';
 
 export default function page() {
   const { authenticatedUser } = useContext(UserContext);
+  const [navbar, setNavbar] = useState('calendar');
 
   console.log(authenticatedUser);
 
+  function handleClick(item) {
+    setNavbar(item);
+  }
+
   return (
     <>
-      {authenticatedUser && <div>Logged in as {authenticatedUser.name}</div>}
       <div className='flex justify-center py-4 mx-auto'>
         <Logo />
       </div>
-      <Navbar />
+      {navbar === 'calendar' && <Calendar />}
+      {navbar === 'profile' && <Profile />}
+
+      <Navbar
+        navbar={navbar}
+        onNavbarItemClick={(item) => handleClick(item)}
+      />
     </>
   );
 }

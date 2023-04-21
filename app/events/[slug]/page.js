@@ -1,8 +1,9 @@
 import getEvent from '../../../lib/getEvent';
-import { dateToString, timeToString } from '@/util/formatDateTime';
+import { dateToString, timeToString } from '../../../util/formatDateTime';
 import { BsPeopleFill, BsShareFill } from 'react-icons/bs';
 import JoinEvent from './components/joinevent';
 import ShareEvent from './components/ShareEvent';
+import UpdateHistory from '../../../util/updateHistory';
 
 export async function generateMetadata({ params: { slug } }) {
   const eventData = getEvent(slug);
@@ -17,23 +18,28 @@ export async function generateMetadata({ params: { slug } }) {
 const EventPage = async ({ params: { slug } }) => {
   const eventData = getEvent(slug);
 
-  // const [event] = await Promise.all([eventData]);
-
   const { event } = await eventData;
 
   event.dateString = dateToString(event.startDateTime);
   event.timeString = timeToString(event.startDateTime, event.endDateTime);
 
-  console.log('I AM HERE');
-  event.venueAddress =
-    'Carretera de la Coruña, 1, 15008 A Coruña, A Coruña, Spain';
-  event.description =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.';
-
   console.log(event);
+
+  const miniEvent = {
+    slug: event.slug,
+    name: event.eventName,
+    date: new Date(event.startDateTime).toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    }),
+    image: event.pictureUrl,
+  };
+
 
   return (
     <>
+      <UpdateHistory miniEvent={...miniEvent} />
       <img
         className='object-cover w-full h-[35vh]'
         src={event.pictureUrl}

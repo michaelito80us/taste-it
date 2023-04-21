@@ -14,34 +14,14 @@ export default function Home() {
       data = await auth();
 
       if (!data.error) {
-        console.log('there was data!!!!', data);
         setAuthenticatedUser(data.user);
-
         router.push(`/user/${data.user.slug}`);
       } else {
-        console.log('there was no data');
         router.push('/auth/login');
       }
     }
     check();
   }, []);
 
-  return (
-    <>
-      {/* {data ? (
-        <Link
-          href='/user/[slug]'
-          as={`/user/${data.user.slug}`}
-          replace
-        ></Link>
-      ) : (
-        <Link
-          href='/auth/login'
-          replace
-        >
-          Login
-        </Link>
-      )} */}
-    </>
-  );
+  return <></>;
 }
