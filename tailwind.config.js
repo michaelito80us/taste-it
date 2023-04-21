@@ -17,6 +17,7 @@ module.exports = {
         },
         pri: '#413A55',
         sec: '#749A8D',
+        ter: '#C94277',
       },
       fontFamily: {
         tst: ['var(--font-raleway)', ...fontFamily.serif],

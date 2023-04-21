@@ -1,11 +1,12 @@
 import getEvent from '@/lib/getEvent';
 import { dateToString, timeToString } from '@/util/formatDateTime';
-import { BsPeopleFill } from 'react-icons/bs';
+import { BsPeopleFill, BsShareFill } from 'react-icons/bs';
 import JoinEvent from './components/joinevent';
+import ShareEvent from './components/ShareEvent';
 
 export async function generateMetadata({ params: { slug } }) {
   const eventData = getEvent(slug);
-  const event = await eventData;
+  const { event } = await eventData;
 
   return {
     title: event.name,
@@ -86,8 +87,10 @@ const EventPage = async ({ params: { slug } }) => {
           max={event.maxAttendees}
           value={event.totalAttendees}
         />
-        <div className='mb-3'>current attendees: {event.totalAttendees}</div>
-        <div className='' />
+        <div className='relative'>
+          <div className='mb-3'>current attendees: {event.totalAttendees}</div>
+          <ShareEvent event={event} />
+        </div>
         <div className='mb-1'>Description:</div>
         <div className='mb-5'>{event.description}</div>
         <div className='flex pb-20'>
