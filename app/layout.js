@@ -1,6 +1,7 @@
 import './globals.css';
 import { Raleway } from 'next/font/google';
 const raleway = Raleway({ subsets: ['latin'], variable: '--font-raleway' });
+import UserContextProvider from './context/userContext';
 
 export const metadata = {
   title: 'Taste-it',
@@ -13,7 +14,9 @@ export default function RootLayout({ children }) {
       className={`${raleway.variable} font-tst bg-tst-bg`}
       lang='en'
     >
-      <body>{children}</body>
+      <body>
+        <UserContextProvider>{children}</UserContextProvider>
+      </body>
     </html>
   );
 }

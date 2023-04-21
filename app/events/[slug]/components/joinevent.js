@@ -14,7 +14,6 @@ const JoinEvent = ({ event }) => {
   function handleSubtract() {
     attendees > 0 && setAttendees(attendees - 1);
   }
-  event.totalAttendees = event.maxAttendees;
 
   return (
     <>

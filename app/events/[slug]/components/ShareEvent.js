@@ -1,5 +1,5 @@
 'use client';
-import baseUrl from '@/lib/baseUrl';
+import baseUrl from '../../../../lib/baseUrl';
 import { useState, useRef, useEffect } from 'react';
 import { FaShare } from 'react-icons/fa';
 import QRCode from 'qrcode.react';
@@ -103,7 +103,10 @@ const ShareEvent = ({ event }) => {
           className='fixed top-0 bottom-0 left-0 right-0 bg-[rgba(0,0,0,0.5)] z-50 flex items-center justify-center pb-20'
           onClick={() => setShowPoster(false)}
         >
-          <Poster event={event} />
+          <Poster
+            id='eventPoster'
+            event={event}
+          />
         </div>
       )}
     </>

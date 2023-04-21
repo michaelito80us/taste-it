@@ -1,6 +1,6 @@
 'use client';
 
-import createEvent from '@/lib/createEvent';
+import createEvent from '../../lib/createEvent';
 import { useEffect, useState } from 'react';
 
 const CreateEventPage = () => {

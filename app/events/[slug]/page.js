@@ -1,4 +1,4 @@
-import getEvent from '@/lib/getEvent';
+import getEvent from '../../../lib/getEvent';
 import { dateToString, timeToString } from '@/util/formatDateTime';
 import { BsPeopleFill, BsShareFill } from 'react-icons/bs';
 import JoinEvent from './components/joinevent';
