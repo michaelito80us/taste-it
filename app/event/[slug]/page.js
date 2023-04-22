@@ -1,3 +1,4 @@
+'use client';
 import getEvent from '../../../lib/getEvent';
 import { dateToString, timeToString } from '../../../util/formatDateTime';
 import { BsPeopleFill, BsShareFill } from 'react-icons/bs';
@@ -5,28 +6,40 @@ import JoinEvent from './components/joinevent';
 import ShareEvent from './components/ShareEvent';
 import UpdateHistory from '../../../util/updateHistory';
 import EventImage from './components/EventImage';
+import { useEffect, useRef, useState } from 'react';
+import { useParams } from 'next/navigation';
 
-export async function generateMetadata({ params: { slug } }) {
-  const eventData = getEvent(slug);
-  const { event } = await eventData;
+// export async function generateMetadata({ params: { slug } }) {
+//   const eventData = getEvent(slug);
+//   const { event } = await eventData;
 
-  return {
-    title: event.name,
-    description: event.description,
-  };
-}
+//   return {
+//     title: event.name,
+//     description: event.description,
+//   };
+// }
 
-const EventPage = async ({ params: { slug } }) => {
-  const eventData = getEvent(slug);
+const EventPage = () => {
+  const [event, setEvent] = useState({});
+  const miniEvent = useRef('');
+  const params = useParams();
 
-  const { event } = await eventData;
-
-  event.dateString = dateToString(event.startDateTime);
-  event.timeString = timeToString(event.startDateTime, event.endDateTime);
-
-  console.log('EVENT DETAIL PAGE: ',event);
-
-  const miniEvent = {
+  useEffect(() => {
+    const getEventData = async () => {
+      const eventData = await getEvent(params.slug);
+      console.log('eventData: ', eventData);
+      setEvent({
+        ...eventData.event,
+        dateString: dateToString(eventData.event.startDateTime),
+        timeString: timeToString(
+          eventData.event.startDateTime,
+          eventData.event.endDateTime
+        ),
+      });
+    };
+    getEventData();
+  }, []);
+  miniEvent.current = {
     slug: event.slug,
     name: event.eventName,
     date: new Date(event.startDateTime).toLocaleDateString('en-US', {
@@ -37,10 +50,13 @@ const EventPage = async ({ params: { slug } }) => {
     image: event.pictureUrl,
   };
 
+  console.log('EVENT DETAIL PAGE: ', event);
 
   return (
     <>
-      <UpdateHistory miniEvent={...miniEvent} />
+      {miniEvent.current.name && (
+        <UpdateHistory miniEvent={miniEvent.current} />
+      )}
       <EventImage image={event.pictureUrl} />
 
       <div className='mt-[-30px] bg-tst-bg rounded-full relative h-16 p-4 '>
@@ -105,7 +121,7 @@ const EventPage = async ({ params: { slug } }) => {
         <div className='pt-3 pb-6 bg-tst-bg'>
           <JoinEvent event={event} />
         </div>
-        </div>
+      </div>
     </>
   );
 };
