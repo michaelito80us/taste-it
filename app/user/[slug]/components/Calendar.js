@@ -1,6 +1,8 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MiniEvent from './MiniEvent';
+import { getEventsByAttendee } from '../../../../lib/getEventsByUser';
+import AllEvents from './AllEvents';
 
 const Calendar = () => {
   const [history, setHistory] = useState(() => {
@@ -8,13 +10,26 @@ const Calendar = () => {
     const initialValue = JSON.parse(saved);
     return initialValue || [];
   });
+  const [events, setEvents] = useState([]);
+
   // get events from db
+
+  useEffect(() => {
+    const getAttendeeEvents = async () => {
+      const data = await getEventsByAttendee();
+      setEvents(data);
+    };
+
+    getAttendeeEvents();
+  }, []);
+
+  console.log('events', events);
 
   return (
     <>
-      <div className='h-32 p-4'>
-        <div className='pb-2 text-lg'>recently viewed:</div>
-        {history && (
+      {history.length > 0 && (
+        <div className='h-32 p-4'>
+          <div className='pb-2'>recently viewed:</div>
           <div className='flex overflow-x-scroll no-scrollbar '>
             {history.map((event) => (
               <MiniEvent
@@ -23,14 +38,12 @@ const Calendar = () => {
               />
             ))}
           </div>
-        )}
-      </div>
-      <div className='p-4 pb-20'>
-        <div className='pb-2 text-lg'>your upcoming events:</div>
-        <div className='overflow-y-auto overscroll-none'>
-          all the events come here
         </div>
-      </div>
+      )}
+      <AllEvents
+        type='attendee'
+        message='your events to attend:'
+      />
     </>
   );
 };

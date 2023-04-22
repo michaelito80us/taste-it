@@ -5,12 +5,13 @@ import Logo from './components/Logo';
 import Navbar from './components/Navbar';
 import Calendar from './components/Calendar';
 import Profile from './components/Profile';
+import AuthenticateUser from './../../components/AuthenticateUser';
 
 export default function page() {
   const { authenticatedUser } = useContext(UserContext);
   const [navbar, setNavbar] = useState('calendar');
 
-  console.log(authenticatedUser);
+  console.log('authenticatedUser: ', authenticatedUser);
 
   function handleClick(item) {
     setNavbar(item);
@@ -18,7 +19,8 @@ export default function page() {
 
   return (
     <>
-      <div className='flex justify-center py-4 mx-auto'>
+      {!authenticatedUser && <AuthenticateUser />}
+      <div className='sticky top-0 z-50 flex justify-center py-4 mx-auto bg-tst-bg'>
         <Logo />
       </div>
       {navbar === 'calendar' && <Calendar />}

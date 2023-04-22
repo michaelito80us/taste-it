@@ -96,7 +96,7 @@ const CreateEventPage = () => {
       const eventData = await createEvent(newFormData);
 
       setLoading(false);
-      router.push(`/events/${eventData.slug}`);
+      router.replace(`/event/${eventData.slug}`);
     }
 
     await uploadImage();

@@ -4,6 +4,7 @@ import { BsPeopleFill, BsShareFill } from 'react-icons/bs';
 import JoinEvent from './components/joinevent';
 import ShareEvent from './components/ShareEvent';
 import UpdateHistory from '../../../util/updateHistory';
+import EventImage from './components/EventImage';
 
 export async function generateMetadata({ params: { slug } }) {
   const eventData = getEvent(slug);
@@ -23,7 +24,7 @@ const EventPage = async ({ params: { slug } }) => {
   event.dateString = dateToString(event.startDateTime);
   event.timeString = timeToString(event.startDateTime, event.endDateTime);
 
-  console.log(event);
+  console.log('EVENT DETAIL PAGE: ',event);
 
   const miniEvent = {
     slug: event.slug,
@@ -40,11 +41,9 @@ const EventPage = async ({ params: { slug } }) => {
   return (
     <>
       <UpdateHistory miniEvent={...miniEvent} />
-      <img
-        className='object-cover w-full h-[35vh]'
-        src={event.pictureUrl}
-      />
-      <div className='mt-[-30px] bg-tst-bg rounded-full z-10 relative h-16 p-4'>
+      <EventImage image={event.pictureUrl} />
+
+      <div className='mt-[-30px] bg-tst-bg rounded-full relative h-16 p-4 '>
         {event.maxAttendees > 0 && (
           <div className='flex justify-end text-sec'>
             <div className='flex items-center self-end px-2 py-1 border-2 rounded-lg w-fit'>
@@ -98,11 +97,15 @@ const EventPage = async ({ params: { slug } }) => {
           <ShareEvent event={event} />
         </div>
         <div className='mb-1'>Description:</div>
-        <div className='mb-5'>{event.description}</div>
-        <div className='flex pb-20'>
+        <div className='pb-32'>{event.description}</div>
+      </div>
+
+      <div className='fixed bottom-0 flex flex-col items-center'>
+        <div className='w-screen h-12 bg-gradient-to-t from-tst-bg to-transparent'></div>
+        <div className='pt-3 pb-6 bg-tst-bg'>
           <JoinEvent event={event} />
         </div>
-      </div>
+        </div>
     </>
   );
 };

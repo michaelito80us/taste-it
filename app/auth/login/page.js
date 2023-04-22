@@ -22,6 +22,8 @@ const LoginPage = () => {
 
     if (data.error) {
       // TODO: handle error
+      console.log(data.error);
+      console.log('error', data.error.message);
     } else {
       // need to set the context value to be the user
       setAuthenticatedUser(data.user);
