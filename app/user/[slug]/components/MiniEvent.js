@@ -4,7 +4,7 @@ const MiniEvent = ({ event }) => {
   return (
     <>
       <Link href={`/events/${event.slug}`}>
-        <div className='flex border-2 rounded-lg w-48 min-w-[12rem] mr-3'>
+        <div className='flex border-2 rounded-lg w-48 h-16 min-w-[12rem] mr-3'>
           <img
             src={event.image}
             alt=''

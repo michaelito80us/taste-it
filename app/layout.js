@@ -11,7 +11,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html
-      className={`${raleway.variable} font-tst bg-tst-bg`}
+      className={`${raleway.variable} font-tst bg-tst-bg text-pri`}
       lang='en'
     >
       <body>

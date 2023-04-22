@@ -3,7 +3,6 @@ import { useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import Logo from './components/Logo';
 import Navbar from './components/Navbar';
-import MiniEvent from './components/MiniEvent';
 import Calendar from './components/Calendar';
 import Profile from './components/Profile';
 

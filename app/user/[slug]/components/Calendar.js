@@ -8,6 +8,7 @@ const Calendar = () => {
     const initialValue = JSON.parse(saved);
     return initialValue || [];
   });
+  // get events from db
 
   return (
     <>
@@ -24,8 +25,11 @@ const Calendar = () => {
           </div>
         )}
       </div>
-      <div className='p-4'>
+      <div className='p-4 pb-20'>
         <div className='pb-2 text-lg'>your upcoming events:</div>
+        <div className='overflow-y-auto overscroll-none'>
+          all the events come here
+        </div>
       </div>
     </>
   );

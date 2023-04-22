@@ -3,6 +3,7 @@
 import createEvent from '../../lib/createEvent';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Spinner from '../components/Spinner';
 
 const CreateEventPage = () => {
   const [formData, setFormData] = useState({
@@ -103,17 +104,7 @@ const CreateEventPage = () => {
 
   return (
     <div>
-      {loading && (
-        <div className='fixed top-0 bottom-0 left-0 right-0 z-10 w-screen h-screen bg-[rgba(65,58,85,0.8)]'>
-          <div className='flex flex-col items-center justify-center w-full h-full'>
-            <img
-              src='/images/spinner.png'
-              className='w-20 h-20'
-            />
-            <p className='mt-4 text-lg text-white'>Creating event...</p>
-          </div>
-        </div>
-      )}
+      {loading && <Spinner message='Creating event...' />}
       <div className='flex justify-around py-4 text-lg'>
         <p>Create an event</p>
       </div>

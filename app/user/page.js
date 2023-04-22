@@ -1,12 +1,11 @@
 'use client';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useContext } from 'react';
-import auth from '../lib/auth';
-import { UserContext } from './context/userContext';
-import Spinner from './components/Spinner';
+import auth from '../../lib/auth';
+import { UserContext } from './../context/userContext';
+import Spinner from './../components/Spinner';
 
-export default function Home() {
+const page = () => {
   const { setAuthenticatedUser } = useContext(UserContext);
   const router = useRouter();
   let data = false;
@@ -26,4 +25,6 @@ export default function Home() {
   }, []);
 
   return <>{!data && <Spinner />}</>;
-}
+};
+
+export default page;
