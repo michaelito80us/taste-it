@@ -19,7 +19,20 @@ const Event = ({ event }) => {
           <div className='text-lg font-bold capitalize'>{event.eventName}</div>
           <div>{event.dateString}</div>
           <div>{event.timeString}</div>
-          {event.Attendee && <div>Attendees: {event.totalAttendees}</div>}
+          {event.Attendee && (
+            <>
+              <div className='relative'>
+                <div>Attendees: {event.totalAttendees}</div>
+                <div
+                  className={`absolute bottom-0 right-0 px-2 py-1 text-sm rounded-md text-tst-bg ${
+                    event.isActive ? 'bg-sec ' : 'bg-ter/80'
+                  }`}
+                >
+                  {event.isActive ? 'published' : 'not published'}
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </Link>

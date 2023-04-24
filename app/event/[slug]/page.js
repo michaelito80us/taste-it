@@ -1,7 +1,7 @@
 'use client';
 import getEvent from '../../../lib/getEvent';
 import { dateToString, timeToString } from '../../../util/formatDateTime';
-import { BsPeopleFill, BsShareFill } from 'react-icons/bs';
+import { BsPeopleFill } from 'react-icons/bs';
 import JoinEvent from './components/joinevent';
 import ShareEvent from './components/ShareEvent';
 import UpdateHistory from '../../../util/updateHistory';
@@ -12,18 +12,9 @@ import { UserContext } from '../../context/userContext';
 import auth from '../../../lib/auth';
 import Spinner from '../../components/Spinner';
 
-// export async function generateMetadata({ params: { slug } }) {
-//   const eventData = getEvent(slug);
-//   const { event } = await eventData;
-
-//   return {
-//     title: event.name,
-//     description: event.description,
-//   };
-// }
-
 const EventPage = () => {
   const [event, setEvent] = useState({});
+  const [attendee, setAttendee] = useState({});
   const miniEvent = useRef('');
   const params = useParams();
   const [showSpinner, setShowSpinner] = useState(true);
@@ -31,17 +22,15 @@ const EventPage = () => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
 
   useEffect(() => {
-    async function check() {
+    const checkForAuthenticatedUser = async () => {
       const data = await auth();
 
-      console.log({ data });
+      console.log('user data for this event: ', data);
 
       if (!data?.error) {
         setAuthenticatedUser(data.user);
       }
-    }
-
-    check();
+    };
 
     const getEventData = async () => {
       const eventData = await getEvent(params.slug);
@@ -56,8 +45,10 @@ const EventPage = () => {
       });
       setShowSpinner(false);
     };
+
+    checkForAuthenticatedUser();
     getEventData();
-  }, []);
+  }, [attendee]);
 
   miniEvent.current = {
     slug: event.slug,
@@ -140,7 +131,10 @@ const EventPage = () => {
       <div className='fixed bottom-0 flex flex-col items-center'>
         <div className='w-screen h-12 bg-gradient-to-t from-tst-bg to-transparent'></div>
         <div className='pt-3 pb-6 bg-tst-bg'>
-          <JoinEvent event={event} />
+          <JoinEvent
+            event={event}
+            setAttendee={setAttendee}
+          />
         </div>
       </div>
     </>
