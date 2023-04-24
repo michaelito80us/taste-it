@@ -17,7 +17,7 @@ import Link from 'next/link';
 const EventPage = () => {
   const [event, setEvent] = useState({});
   const [attendee, setAttendee] = useState({});
-  const [showMagageOptions, setShowMagageOptions] = useState(false);
+  const [showManageOptions, setShowManageOptions] = useState(false);
   const router = useRouter();
 
   const miniEvent = useRef('');
@@ -66,6 +66,11 @@ const EventPage = () => {
     image: event.pictureUrl,
   };
 
+  function manageOptions(e) {
+    e.stopPropagation();
+    setShowManageOptions(!showManageOptions);
+  }
+
   return (
     <>
       {showSpinner && <Spinner img='true' />}
@@ -75,7 +80,7 @@ const EventPage = () => {
       <EventImage image={event.pictureUrl} />
 
       <div
-        onClick={() => setShowMagageOptions(false)}
+        onClick={() => setShowManageOptions(false)}
         className='mt-[-30px] bg-tst-bg rounded-full relative h-16 p-4 '
       >
         <div
@@ -158,19 +163,19 @@ const EventPage = () => {
       </div>
 
       <div
-        onClick={() => setShowMagageOptions(false)}
+        onClick={() => setShowManageOptions(false)}
         className='fixed bottom-0 flex flex-col items-center'
       >
         <div className='w-screen h-12 bg-gradient-to-t from-tst-bg to-transparent'></div>
         {event.eventCreatorId === authenticatedUser.id && (
           <div className='relative flex justify-end w-full pr-4 bg-tst-bg'>
             <button
-              onClick={() => setShowMagageOptions(!showMagageOptions)}
+              onClick={manageOptions}
               className='px-2 py-1 border rounded border-pri w-fit'
             >
               manage event
             </button>
-            {showMagageOptions && (
+            {showManageOptions && (
               <div className='absolute flex flex-col items-start px-4 py-2 transition border rounded-md shadow-lg bottom-14 right-10 bg-tst-bg border-pri shadow-pri'>
                 <Link
                   href={{

@@ -1,6 +1,6 @@
 'use client';
 
-import createEvent from '../../lib/createEvent';
+import createOrUpdateEvent from '../../lib/createOrUpdateEvent';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Spinner from '../components/Spinner';
@@ -23,7 +23,6 @@ const CreateEventPage = () => {
     venueAddress: '',
     maxAttendees: 0,
   });
-  const [event, setEvent] = useState(null);
   const [image, setImage] = useState(null);
   const [file, setFile] = useState(null);
   const [checked, setChecked] = useState(false);
@@ -44,16 +43,15 @@ const CreateEventPage = () => {
       const getEventData = async () => {
         const eventData = await getEvent(editSlug);
         console.log('eventData: ', eventData);
-        setEvent({
+
+        // setFormData(eventData.event);
+        setFormData({
           ...eventData.event,
-          dateString: dateToString(eventData.event.startDateTime),
-          timeString: timeToString(
-            eventData.event.startDateTime,
-            eventData.event.endDateTime
-          ),
+          oldMaxAttendees: eventData.event.maxAttendees,
         });
 
         setImage(eventData.event.pictureUrl);
+        setChecked(eventData.event.maxAttendees > 0);
         setLoading(false);
       };
 
@@ -129,7 +127,7 @@ const CreateEventPage = () => {
 
       setFormData(newFormData);
 
-      const eventData = await createEvent(newFormData);
+      const eventData = await createOrUpdateEvent(newFormData);
 
       setLoading(false);
       router.replace(`/event/${eventData.slug}`);
@@ -184,7 +182,7 @@ const CreateEventPage = () => {
             id='eventName'
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
-            value={event?.eventName}
+            value={formData.eventName}
           />
 
           <label
@@ -199,7 +197,7 @@ const CreateEventPage = () => {
             rows={5}
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
-            value={event?.description}
+            value={formData.description}
           />
 
           <div className='flex justify-between w-full pt-4'>
@@ -213,7 +211,7 @@ const CreateEventPage = () => {
                 max={formData.endDate ? formData.endDate : ''}
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
-                value={event?.startDate}
+                value={formData.startDate}
               />
             </div>
 
@@ -225,7 +223,7 @@ const CreateEventPage = () => {
                 id='startTime'
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
-                value={event?.startTime}
+                value={formData.startTime}
               />
             </div>
           </div>
@@ -245,7 +243,7 @@ const CreateEventPage = () => {
                 }
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
-                value={event?.endDate}
+                value={formData.endDate}
               />
             </div>
             <div className='flex flex-col'>
@@ -257,7 +255,7 @@ const CreateEventPage = () => {
                 placeholder='End Time'
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
-                value={event?.endTime}
+                value={formData.endTime}
               />
             </div>
           </div>
@@ -274,7 +272,7 @@ const CreateEventPage = () => {
             id='venueName'
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
-            value={event?.venueName}
+            value={formData.venueName}
           />
 
           <label
@@ -289,7 +287,7 @@ const CreateEventPage = () => {
             id='venueAddress'
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
-            value={event?.venueAddress}
+            value={formData.venueAddress}
           />
           <div className='flex items-center h-20 pt-4'>
             <div className='min-w-fit'>
@@ -305,7 +303,7 @@ const CreateEventPage = () => {
                 id='hasMaxAttendees'
                 onChange={handleCheckboxChange}
                 className='w-4 h-4 mr-3 border-2 rounded-md'
-                checked={event?.maxAttendees > 0}
+                checked={checked}
               />{' '}
             </div>
             {checked && (
@@ -322,7 +320,7 @@ const CreateEventPage = () => {
                   id='maxAttendees'
                   onChange={handleInputChange}
                   className='w-full p-2 border-2 rounded-md'
-                  value={event?.maxAttendees}
+                  value={formData.maxAttendees}
                 />
               </>
             )}
