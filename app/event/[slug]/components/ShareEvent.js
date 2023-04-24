@@ -64,7 +64,7 @@ const ShareEvent = ({ event }) => {
               <img
                 ref={ref}
                 src={event.pictureUrl}
-                className='w-12 h-12'
+                className='object-cover w-12 h-12'
               />
               Poster
             </button>

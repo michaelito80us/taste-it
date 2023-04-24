@@ -35,10 +35,10 @@ const Poster = ({ event }) => {
       let hRatio = canvas.width / backgroundImg.width;
       let vRatio = canvas.height / backgroundImg.height;
       ratio = Math.min(hRatio, vRatio);
-      populatePoster(ratio);
+      populatePoster(ratio, 290);
     };
 
-    function populatePoster(ratio) {
+    function populatePoster(ratio, height) {
       // poster;
       ctx.drawImage(
         backgroundImg,
@@ -49,14 +49,16 @@ const Poster = ({ event }) => {
         0,
         0,
         backgroundImg.width * ratio,
-        backgroundImg.height * ratio
+        height
+        // backgroundImg.height * ratio
       );
 
       // overlay on the poster
       ctx.fillStyle = '#f5f5f5';
       ctx.fillRect(
         0,
-        backgroundImg.height * ratio - 100,
+        height - 100,
+        // backgroundImg.height * ratio - 100,
         backgroundImg.width * ratio,
         1000
       );
@@ -66,7 +68,8 @@ const Poster = ({ event }) => {
         ctx,
         `${event.eventName}`,
         10,
-        backgroundImg.height * ratio - 70,
+        height - 70,
+        // backgroundImg.height * ratio - 70,
         15,
         backgroundImg.width * ratio
       );
@@ -75,7 +78,8 @@ const Poster = ({ event }) => {
         ctx,
         `${event.dateString}`,
         10,
-        backgroundImg.height * ratio - 20,
+        height - 20,
+        // backgroundImg.height * ratio - 20,
         15,
         backgroundImg.width * ratio
       );
@@ -84,7 +88,8 @@ const Poster = ({ event }) => {
         ctx,
         `${event.timeString}`,
         10,
-        backgroundImg.height * ratio,
+        height,
+        // backgroundImg.height * ratio,
         15,
         backgroundImg.width * ratio
       );
@@ -93,7 +98,8 @@ const Poster = ({ event }) => {
         ctx,
         `${event.venueName}`,
         10,
-        backgroundImg.height * ratio + 30,
+        height + 30,
+        // backgroundImg.height * ratio + 30,
         15,
         backgroundImg.width * ratio
       );
@@ -102,7 +108,8 @@ const Poster = ({ event }) => {
         ctx,
         `${event.venueAddress ? event.venueAddress : ''}`,
         10,
-        backgroundImg.height * ratio + 50,
+        height + 50,
+        // backgroundImg.height * ratio + 50,
         15,
         backgroundImg.width * ratio
       );
@@ -112,30 +119,21 @@ const Poster = ({ event }) => {
         ctx,
         `www.go-taste.it`,
         10,
-        backgroundImg.height * ratio + 120,
-        15,
+        height + 125,
+        // backgroundImg.height * ratio + 120,
         backgroundImg.width * ratio
       );
       printAtWordWrap(
         ctx,
         `for all your tasting events`,
         10,
-        backgroundImg.height * ratio + 135,
+        height + 140,
+        // backgroundImg.height * ratio + 135,
         15,
         backgroundImg.width * ratio
       );
 
-      ctx.drawImage(
-        qrImg,
-        0,
-        0,
-        backgroundImg.width,
-        backgroundImg.height,
-        215,
-        360,
-        backgroundImg.width * ratio,
-        backgroundImg.height * ratio
-      );
+      ctx.drawImage(qrImg, 0, 0, qrImg.width, qrImg.height, 210, 355, 75, 75);
 
       function printAtWordWrap(context, text, x, y, lineHeight, fitWidth) {
         fitWidth = fitWidth || 0;
