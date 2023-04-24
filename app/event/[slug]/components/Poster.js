@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import baseUrl from '../../../../lib/baseUrl';
 
 const Poster = ({ event }) => {
   const canvasRef = useRef(null);
@@ -8,6 +7,7 @@ const Poster = ({ event }) => {
 
   useEffect(() => {
     const qrImg = new Image();
+
     async function getQrCode(qrImg) {
       const res = await fetch(
         ` https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://go-taste.it/event/${event.slug}`
@@ -36,7 +36,7 @@ const Poster = ({ event }) => {
     };
 
     function populatePoster(ratio, height) {
-      // poster;
+      // poster
       ctx.drawImage(
         backgroundImg,
         0,

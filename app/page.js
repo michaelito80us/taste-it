@@ -15,7 +15,9 @@ export default function Home() {
     async function check() {
       data = await auth();
 
-      if (!data?.error) {
+      console.log('data', data);
+
+      if (data.user) {
         setAuthenticatedUser(data.user);
         router.push(`/user/${data.user.slug}`);
       } else {

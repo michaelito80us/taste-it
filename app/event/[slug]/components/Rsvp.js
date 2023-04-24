@@ -57,7 +57,11 @@ const Rsvp = ({ event, setAttendee, currentAttendee }) => {
         <button
           onClick={handleNotGoing}
           className={`mr-3 flex flex-col items-center justify-center h-10 text-sm border rounded-md w-14
-            ${currentAttendee.current.numberOfSeats === 0 ? 'bg-sec/50 ' : ' '}
+            ${
+              currentAttendee.current.numberOfSeats === 0
+                ? 'bg-sec text-tst-bg '
+                : ' '
+            }
           `}
         >
           <div className='leading-3 pb-[2px]'>Not</div>
@@ -68,7 +72,7 @@ const Rsvp = ({ event, setAttendee, currentAttendee }) => {
           className={`mr-3 flex flex-col items-center justify-center h-10 text-sm border rounded-md w-14
             ${
               currentAttendee.current.numberOfSeats === 1
-                ? 'bg-sec/50 '
+                ? 'bg-sec text-tst-bg  '
                 : event.hasMaxAttendees &&
                   event.maxAttendees - event.totalAttendees < 1
                 ? 'opacity-25 '
@@ -80,14 +84,14 @@ const Rsvp = ({ event, setAttendee, currentAttendee }) => {
             event.maxAttendees - event.totalAttendees < 1
           }
         >
-          <BsPersonFill className='text-lg' />
+          <BsPersonFill className='text-lg ' />
         </button>
         <button
           onClick={handle2}
           className={`flex items-center justify-center h-10 text-sm border rounded-md w-14
             ${
               currentAttendee.current.numberOfSeats === 2
-                ? 'bg-sec/50 '
+                ? 'bg-sec text-tst-bg '
                 : event.hasMaxAttendees &&
                   event.maxAttendees - event.totalAttendees < 2
                 ? 'opacity-25 '

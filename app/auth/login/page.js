@@ -1,14 +1,19 @@
 'use client';
 
-import { useRef, useContext } from 'react';
+import { useRef, useContext, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import login from '../../../lib/login';
 import { useRouter, useSearchParams } from 'next/navigation';
+import Login from '../components/Login';
+import Register from '../components/Register';
 
 const LoginPage = () => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showSpinner, setShowSpinner] = useState(false);
   const email = useRef('');
   const password = useRef('');
+  const name = useRef('');
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -17,7 +22,15 @@ const LoginPage = () => {
   async function onSubmit(e) {
     e.preventDefault();
 
-    const data = await login(email.current, password.current);
+    let data;
+    if (showRegister) {
+      setShowSpinner(true);
+      data = await login(email.current, password.current, name.current);
+      localStorage.removeItem('history');
+    } else {
+      setShowSpinner(true);
+      data = await login(email.current, password.current);
+    }
 
     console.log('FROM LOGIN');
 
@@ -29,34 +42,48 @@ const LoginPage = () => {
       console.log('error', data.error.message);
     } else {
       // need to set the context value to be the user
+
       setAuthenticatedUser(data.user);
-      if (redirectSlug) router.push(`/event/${redirectSlug}`);
+      console.log('redirectSlug', redirectSlug);
+      if (!!redirectSlug) router.push(`/event/${redirectSlug}`);
       else router.push(`/user/${data.user.slug}`);
     }
   }
 
   return (
-    <div className='flex flex-col items-center h-screen justify-evenly bg-gradient-to-br from-cyan-300 to-sky-600'>
-      <div>
-        Welcome to taste it.
+    <div className='flex flex-col items-center h-screen pb-24 bg-pri/60 text-tst-bg'>
+      <img
+        className='pt-10 my-32 w-52'
+        src='/images/logo.png'
+        alt=''
+      />
+      <div className='mb-32 text-lg'>
+        Welcome to taste.it.
         <br />
-        Please login to continue.
+        manage all your events in one place.
       </div>
-      <form onSubmit={onSubmit}>
-        <div className='flex flex-col gap-2 py-4 bg-white rounded-md shadow px-7'>
-          <input
-            type='email'
-            placeholder='Email'
-            onChange={(e) => (email.current = e.target.value)}
-          />
-          <input
-            type='password'
-            placeholder='Password'
-            onChange={(e) => (password.current = e.target.value)}
-          />
-          <button type='submit'>Login</button>
-        </div>
-      </form>
+      <div className='fixed bottom-24'>
+        {showRegister ? (
+          <>
+            <Register
+              onSubmit={onSubmit}
+              email={email}
+              password={password}
+              name={name}
+              setShowRegister={setShowRegister}
+            />
+          </>
+        ) : (
+          <>
+            <Login
+              onSubmit={onSubmit}
+              email={email}
+              password={password}
+              setShowRegister={setShowRegister}
+            />
+          </>
+        )}
+      </div>
     </div>
   );
 };
