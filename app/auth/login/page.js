@@ -3,13 +3,16 @@
 import { useRef, useContext } from 'react';
 import { UserContext } from '../../context/userContext';
 import login from '../../../lib/login';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const LoginPage = () => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
   const email = useRef('');
   const password = useRef('');
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const redirectSlug = searchParams.get('redirectBack');
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -27,7 +30,8 @@ const LoginPage = () => {
     } else {
       // need to set the context value to be the user
       setAuthenticatedUser(data.user);
-      router.push(`/user/${data.user.slug}`);
+      if (redirectSlug) router.push(`/event/${redirectSlug}`);
+      else router.push(`/user/${data.user.slug}`);
     }
   }
 

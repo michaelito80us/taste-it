@@ -24,7 +24,7 @@ const page = () => {
     check();
   }, []);
 
-  return <>{!data && <Spinner />}</>;
+  return <>{!data && <Spinner img='true' />}</>;
 };
 
 export default page;

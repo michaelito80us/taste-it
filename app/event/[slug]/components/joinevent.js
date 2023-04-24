@@ -1,9 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import LogInToRsvp from './LogInToRsvp';
+
+import { useContext, useState } from 'react';
+import { UserContext } from '../../../context/userContext';
 
 const JoinEvent = ({ event }) => {
   const [attendees, setAttendees] = useState(0);
+  const [currentAttendees, setCurrentAttendees] = useState(0);
+  const { authenticatedUser } = useContext(UserContext);
 
   function handleAdd() {
     attendees < event.maxAttendees &&
@@ -13,6 +18,9 @@ const JoinEvent = ({ event }) => {
 
   function handleSubtract() {
     attendees > 0 && setAttendees(attendees - 1);
+  }
+
+  if (event.isUserGoing) {
   }
 
   return (
@@ -25,34 +33,42 @@ const JoinEvent = ({ event }) => {
           </div>
         ) : (
           <>
-            <button
-              disabled={
-                event.totalAttendees >= event.maxAttendees || attendees === 0
-              }
-              className='h-12 mr-4 border-2 rounded-md grow bg-sec text-tst-bg disabled:opacity-50'
-            >
-              Join?
-            </button>
-            <button
-              onClick={handleSubtract}
-              className='flex items-center justify-around w-12 h-12 text-3xl border-2 rounded-md w bg-sec text-tst-bg disabled:opacity-50'
-              disabled={attendees <= 0}
-            >
-              -
-            </button>
-            <div className='flex items-center justify-around w-12'>
-              {attendees}
-            </div>
-            <button
-              onClick={handleAdd}
-              className='flex items-center justify-around w-12 h-12 text-3xl border-2 rounded-md bg-sec text-tst-bg disabled:opacity-50'
-              disabled={
-                attendees >= 2 ||
-                attendees + event.totalAttendees >= event.maxAttendees
-              }
-            >
-              +
-            </button>
+            {event.userType === 'signed in attendee' && <Rsvp event={event} />}
+            {!authenticatedUser.id && <LogInToRsvp slug={event.slug} />}
+            {authenticatedUser.id === event.eventCreatorId &&
+              event.isUserGoing && (
+                <>
+                  <button
+                    disabled={
+                      event.totalAttendees >= event.maxAttendees ||
+                      attendees === 0
+                    }
+                    className='h-12 mr-4 border-2 rounded-md grow bg-sec text-tst-bg disabled:opacity-50'
+                  >
+                    Join?
+                  </button>
+                  <button
+                    onClick={handleSubtract}
+                    className='flex items-center justify-around w-12 h-12 text-3xl border-2 rounded-md w bg-sec text-tst-bg disabled:opacity-50'
+                    disabled={attendees <= 0}
+                  >
+                    -
+                  </button>
+                  <div className='flex items-center justify-around w-12'>
+                    {attendees}
+                  </div>
+                  <button
+                    onClick={handleAdd}
+                    className='flex items-center justify-around w-12 h-12 text-3xl border-2 rounded-md bg-sec text-tst-bg disabled:opacity-50'
+                    disabled={
+                      attendees >= 2 ||
+                      attendees + event.totalAttendees >= event.maxAttendees
+                    }
+                  >
+                    +
+                  </button>
+                </>
+              )}
           </>
         )}
       </div>

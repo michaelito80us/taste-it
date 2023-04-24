@@ -24,7 +24,7 @@ const AuthenticateUser = () => {
     check();
   }, []);
 
-  return <>{!data && <Spinner />}</>;
+  return <>{!data && <Spinner img='true' />}</>;
 };
 
 export default AuthenticateUser;

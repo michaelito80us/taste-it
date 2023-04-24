@@ -15,7 +15,7 @@ export default function Home() {
     async function check() {
       data = await auth();
 
-      if (!data.error) {
+      if (!data?.error) {
         setAuthenticatedUser(data.user);
         router.push(`/user/${data.user.slug}`);
       } else {
@@ -25,5 +25,5 @@ export default function Home() {
     check();
   }, []);
 
-  return <>{!data && <Spinner />}</>;
+  return <>{!data && <Spinner img='true' />}</>;
 }

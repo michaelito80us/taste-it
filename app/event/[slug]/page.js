@@ -6,8 +6,11 @@ import JoinEvent from './components/joinevent';
 import ShareEvent from './components/ShareEvent';
 import UpdateHistory from '../../../util/updateHistory';
 import EventImage from './components/EventImage';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
+import { UserContext } from '../../context/userContext';
+import auth from '../../../lib/auth';
+import Spinner from '../../components/Spinner';
 
 // export async function generateMetadata({ params: { slug } }) {
 //   const eventData = getEvent(slug);
@@ -23,8 +26,23 @@ const EventPage = () => {
   const [event, setEvent] = useState({});
   const miniEvent = useRef('');
   const params = useParams();
+  const [showSpinner, setShowSpinner] = useState(true);
+
+  const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
 
   useEffect(() => {
+    async function check() {
+      const data = await auth();
+
+      console.log({ data });
+
+      if (!data?.error) {
+        setAuthenticatedUser(data.user);
+      }
+    }
+
+    check();
+
     const getEventData = async () => {
       const eventData = await getEvent(params.slug);
       console.log('eventData: ', eventData);
@@ -36,9 +54,11 @@ const EventPage = () => {
           eventData.event.endDateTime
         ),
       });
+      setShowSpinner(false);
     };
     getEventData();
   }, []);
+
   miniEvent.current = {
     slug: event.slug,
     name: event.eventName,
@@ -50,10 +70,9 @@ const EventPage = () => {
     image: event.pictureUrl,
   };
 
-  console.log('EVENT DETAIL PAGE: ', event);
-
   return (
     <>
+      {showSpinner && <Spinner img='true' />}
       {miniEvent.current.name && (
         <UpdateHistory miniEvent={miniEvent.current} />
       )}
@@ -109,7 +128,9 @@ const EventPage = () => {
           value={event.totalAttendees}
         />
         <div className='relative'>
-          <div className='mb-3'>current attendees: {event.totalAttendees}</div>
+          <div className='mb-3'>
+            currently signed up: {event.totalAttendees}
+          </div>
           <ShareEvent event={event} />
         </div>
         <div className='mb-1'>Description:</div>
