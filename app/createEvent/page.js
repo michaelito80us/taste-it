@@ -172,6 +172,7 @@ const CreateEventPage = () => {
               <img
                 src={image}
                 className='object-cover w-full mx-auto rounded-md h-52'
+                alt='event poster'
               />
             ) : (
               <div className='flex items-center justify-around border-2 rounded-md h-52'>

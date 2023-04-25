@@ -13,7 +13,7 @@ const Event = ({ event }) => {
         <img
           className='object-cover w-full h-48 rounded-t-md'
           src={event.pictureUrl}
-          alt=''
+          alt='event picture'
         />
         <div className='p-2'>
           <div className='text-lg font-bold capitalize'>{event.eventName}</div>
