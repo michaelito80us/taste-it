@@ -20,9 +20,8 @@ export default function UserPage() {
       if (data.user) {
         setAuthenticatedUser(data.user);
         router.push(`/user/${data.user.slug}`);
-      } else {
-        router.push('/auth/login');
       }
+      router.push('/auth/login');
     }
     check();
   }, []);

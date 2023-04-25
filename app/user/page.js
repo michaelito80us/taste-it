@@ -14,12 +14,11 @@ const UserPage = () => {
     async function check() {
       data = await auth();
 
-      if (!data.error) {
+      if (data.user) {
         setAuthenticatedUser(data.user);
         router.push(`/user/${data.user.slug}`);
-      } else {
-        router.push('/auth/login');
       }
+      router.push('/auth/login');
     }
     check();
   }, []);
