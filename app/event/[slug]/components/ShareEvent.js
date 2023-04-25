@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { FaShare } from 'react-icons/fa';
 import QRCode from 'qrcode.react';
 import Poster from './Poster';
+import Image from 'next/image';
 
 const ShareEvent = ({ event }) => {
   const [showShare, setShowShare] = useState(false);
@@ -61,7 +62,7 @@ const ShareEvent = ({ event }) => {
               }}
               className='flex flex-col items-center'
             >
-              <img
+              <Image
                 ref={ref}
                 src={event.pictureUrl}
                 className='object-cover w-12 h-12'
@@ -76,7 +77,7 @@ const ShareEvent = ({ event }) => {
               }}
               className='flex flex-col items-center'
             >
-              <img
+              <Image
                 src='/images/QRcode.jpg'
                 className='w-12 h-12'
                 alt='QR code'

@@ -6,6 +6,7 @@ import login from '../../../lib/login';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Login from '../components/Login';
 import Register from '../components/Register';
+import Image from 'next/image';
 
 const LoginPage = () => {
   const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
@@ -52,7 +53,7 @@ const LoginPage = () => {
 
   return (
     <div className='flex flex-col items-center h-screen pb-24 bg-pri/60 text-tst-bg'>
-      <img
+      <Image
         className='pt-10 my-32 w-52'
         src='/images/logo.png'
         alt='logo'

@@ -7,6 +7,7 @@ import Spinner from '../components/Spinner';
 import getEvent from '../../lib/getEvent';
 import { dateToString, timeToString } from '../../util/formatDateTime';
 import { UserContext } from '../context/userContext';
+import Image from 'next/image';
 
 const CreateEventPage = () => {
   const [formData, setFormData] = useState({
@@ -169,7 +170,7 @@ const CreateEventPage = () => {
             htmlFor='image'
           >
             {image ? (
-              <img
+              <Image
                 src={image}
                 className='object-cover w-full mx-auto rounded-md h-52'
                 alt='event poster'

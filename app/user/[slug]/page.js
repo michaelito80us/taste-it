@@ -8,7 +8,7 @@ import Profile from './components/Profile';
 import AuthenticateUser from './../../components/AuthenticateUser';
 import { useRouter } from 'next/navigation';
 
-export default function page() {
+export default function UserMainPage() {
   const { authenticatedUser } = useContext(UserContext);
   const [navbar, setNavbar] = useState('calendar');
   const router = useRouter();

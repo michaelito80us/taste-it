@@ -13,6 +13,7 @@ import auth from '../../../lib/auth';
 import Spinner from '../../components/Spinner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const EventPage = () => {
   const [event, setEvent] = useState({});
@@ -113,7 +114,7 @@ const EventPage = () => {
         </div>
         <div className=' text-pri' />
         <div className='flex items-center text-lg'>
-          <img
+          <Image
             src='/images/calendar.png'
             className='w-4 h-4 mr-3'
             alt='calendar icon'
@@ -121,7 +122,7 @@ const EventPage = () => {
           {event.dateString}
         </div>
         <div className='flex items-center mb-2 text-lg'>
-          <img
+          <Image
             src='/images/time.png'
             className='w-4 h-4 mr-3'
             alt='clock icon'
@@ -130,7 +131,7 @@ const EventPage = () => {
         </div>
         <div className='flex items-center text-lg'>
           <div className='min-w-[1rem] mr-3'>
-            <img
+            <Image
               src='/images/location.png'
               className='h-4 '
               alt='location icon'
