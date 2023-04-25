@@ -25,7 +25,7 @@ const Login = ({ email, password, onSubmit, setShowRegister }) => {
         </button>
 
         <div className='flex justify-center pt-4 text-sm text-pri '>
-          Don't have an account?
+          {`Don't have an account?`}
           <span
             onClick={() => setShowRegister(true)}
             className='pl-1 font-bold'
