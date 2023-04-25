@@ -10,7 +10,8 @@ const Spinner = ({ message, img }) => {
           <div className='flex flex-col items-center justify-center w-full h-full'>
             <Image
               src='/images/spinner.png'
-              className='w-20 h-20'
+              className='w-20 h-20 animate-spin'
+              alt='spinner'
             />
             {message && (
               <p
@@ -22,10 +23,10 @@ const Spinner = ({ message, img }) => {
               </p>
             )}
             {img && (
-              <img
-                className='w-32 pt-10 animate-spin '
+              <Image
+                className='w-32 pt-10 '
                 src='/images/logo.png'
-                alt='spinner'
+                alt='logo'
               />
             )}
           </div>
