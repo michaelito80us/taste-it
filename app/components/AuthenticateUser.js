@@ -14,7 +14,7 @@ const AuthenticateUser = () => {
     async function check() {
       data = await auth();
 
-      if (!data.error) {
+      if (data.user) {
         setAuthenticatedUser(data.user);
         router.push(`/user/${data.user.slug}`);
       } else {

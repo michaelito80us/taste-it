@@ -1,21 +1,29 @@
 'use client';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { UserContext } from '../../context/userContext';
 import Logo from './components/Logo';
 import Navbar from './components/Navbar';
 import Calendar from './components/Calendar';
 import Profile from './components/Profile';
 import AuthenticateUser from './../../components/AuthenticateUser';
+import { useRouter } from 'next/navigation';
 
 export default function page() {
   const { authenticatedUser } = useContext(UserContext);
   const [navbar, setNavbar] = useState('calendar');
+  const router = useRouter();
 
   console.log('authenticatedUser: ', authenticatedUser);
 
   function handleClick(item) {
     setNavbar(item);
   }
+
+  useEffect(() => {
+    if (!authenticatedUser.id) {
+      router.push('/auth/login');
+    }
+  }, []);
 
   return (
     <>

@@ -1,42 +1,59 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 const Poster = ({ event }) => {
   const canvasRef = useRef(null);
-  const [qr, setQr] = useState(null);
 
   useEffect(() => {
-    const qrImg = new Image();
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    async function getQrCode(qrImg) {
+    const backgroundImgPromise = new Promise((resolve, reject) => {
+      const backgroundImg = new Image();
+      backgroundImg.src = event.pictureUrl;
+      backgroundImg.setAttribute('crossorigin', 'anonymous');
+      backgroundImg.onload = () => resolve(backgroundImg);
+      backgroundImg.onerror = reject;
+    });
+
+    const getQrCode = async () => {
       const res = await fetch(
         ` https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://go-taste.it/event/${event.slug}`
       );
-
       const response = await res.blob();
-      setQr(URL.createObjectURL(response));
-      qrImg.src = qr || URL.createObjectURL(response);
-      // qrImg.src = URL.createObjectURL(response);
-      qrImg.setAttribute('crossorigin', 'anonymous');
-    }
+      return URL.createObjectURL(response);
+    };
 
-    getQrCode(qrImg);
+    // const qrCodeUrl = getQrCode();
 
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
-    const backgroundImg = new Image();
-    backgroundImg.src = event.pictureUrl;
-    backgroundImg.setAttribute('crossorigin', 'anonymous');
+    const qrCodePromise = new Promise((resolve, reject) => {
+      let qrCodeUrl;
+      getQrCode().then((res) => (qrCodeUrl = res));
 
-    backgroundImg.onload = () => {
+      const qrCodeImg = new Image();
+      qrCodeImg.src = qrCodeUrl;
+      qrCodeImg.setAttribute('crossorigin', 'anonymous');
+      qrCodeImg.onload = () => resolve(qrCodeImg);
+      qrCodeImg.onerror = reject;
+    });
+
+    // let backgroundImg;
+    // let qrCodeImg;
+
+    Promise.all([backgroundImgPromise, qrCodePromise]).then((images) => {
+      console.log(images);
+      const backgroundImg = images[0];
+      const qrCodeImg = images[1];
+      console.log('I AM INSIDE PROMISE.ALL');
       let hRatio = canvas.width / backgroundImg.width;
       let vRatio = canvas.height / backgroundImg.height;
       const ratio = Math.min(hRatio, vRatio);
-      populatePoster(ratio, 290);
-    };
+      populatePoster(backgroundImg, qrCodeImg, ratio, 290);
+    });
 
-    function populatePoster(ratio, height) {
-      // poster
+    function populatePoster(backgroundImg, qrCodeImg, ratio, height) {
+      // poster;
       ctx.drawImage(
         backgroundImg,
         0,
@@ -130,7 +147,17 @@ const Poster = ({ event }) => {
         backgroundImg.width * ratio
       );
 
-      ctx.drawImage(qrImg, 0, 0, qrImg.width, qrImg.height, 210, 355, 75, 75);
+      ctx.drawImage(
+        qrCodeImg,
+        0,
+        0,
+        qrImg.width,
+        qrImg.height,
+        210,
+        355,
+        75,
+        75
+      );
 
       function printAtWordWrap(context, text, x, y, lineHeight, fitWidth) {
         fitWidth = fitWidth || 0;
@@ -182,15 +209,13 @@ const Poster = ({ event }) => {
   }
 
   return (
-    <>
-      <canvas
-        onClick={downloadPoster}
-        id='eventPoster'
-        ref={canvasRef}
-        width={735 / 2.5}
-        height={1102 / 2.5}
-      />
-    </>
+    <canvas
+      onClick={downloadPoster}
+      id='eventPoster'
+      ref={canvasRef}
+      width={735 / 2.5}
+      height={1102 / 2.5}
+    />
   );
 };
 

@@ -1,9 +1,12 @@
 'use client';
 
-import createEvent from '../../lib/createEvent';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import createOrUpdateEvent from '../../lib/createOrUpdateEvent';
+import { useContext, useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Spinner from '../components/Spinner';
+import getEvent from '../../lib/getEvent';
+import { dateToString, timeToString } from '../../util/formatDateTime';
+import { UserContext } from '../context/userContext';
 
 const CreateEventPage = () => {
   const [formData, setFormData] = useState({
@@ -24,8 +27,41 @@ const CreateEventPage = () => {
   const [file, setFile] = useState(null);
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
-
+  const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
   const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const editSlug = searchParams.get('edit');
+
+  useEffect(() => {
+    if (!authenticatedUser.id) {
+      router.push('/');
+    } else if (editSlug) {
+      console.log('editSlug: ', editSlug);
+      // get event details from db
+
+      const getEventData = async () => {
+        const eventData = await getEvent(editSlug);
+        console.log('eventData: ', eventData);
+
+        // setFormData(eventData.event);
+        setFormData({
+          ...eventData.event,
+          oldMaxAttendees: eventData.event.maxAttendees,
+        });
+
+        setImage(eventData.event.pictureUrl);
+        setChecked(eventData.event.maxAttendees > 0);
+        setLoading(false);
+      };
+
+      getEventData();
+    }
+  }, []);
+
+  // set form data
+
+  console.log('formData after loading: ', formData);
 
   function handleCheckboxChange() {
     setChecked((prev) => !prev);
@@ -70,30 +106,40 @@ const CreateEventPage = () => {
     let endDateTime = new Date(`${formData.endDate} ${formData.endTime}`);
     // submit photo to cloudinary
     async function uploadImage() {
-      const imageForm = new FormData();
-      imageForm.append('file', file);
-      imageForm.append('upload_preset', 'iynvvsvv');
+      let newFormData;
 
-      const response = await fetch(
-        'https://api.cloudinary.com/v1_1/dckqfwvh1/image/upload',
-        {
-          method: 'POST',
-          body: imageForm,
-        }
-      );
+      if (!formData.pictureUrl) {
+        const imageForm = new FormData();
+        imageForm.append('file', file);
+        imageForm.append('upload_preset', 'iynvvsvv');
 
-      const cloudinaryUpload = await response.json();
+        const response = await fetch(
+          'https://api.cloudinary.com/v1_1/dckqfwvh1/image/upload',
+          {
+            method: 'POST',
+            body: imageForm,
+          }
+        );
 
-      const newFormData = {
-        ...formData,
-        pictureUrl: cloudinaryUpload.secure_url,
-        startDateTime: startDateTime.toISOString(),
-        endDateTime: endDateTime.toISOString(),
-      };
+        const cloudinaryUpload = await response.json();
 
+        newFormData = {
+          ...formData,
+          pictureUrl: cloudinaryUpload.secure_url,
+          startDateTime: startDateTime.toISOString(),
+          endDateTime: endDateTime.toISOString(),
+        };
+      } else {
+        newFormData = {
+          ...formData,
+          startDateTime: startDateTime.toISOString(),
+          endDateTime: endDateTime.toISOString(),
+        };
+      }
+      console.log('newFormData: ', newFormData);
       setFormData(newFormData);
 
-      const eventData = await createEvent(newFormData);
+      const eventData = await createOrUpdateEvent(newFormData);
 
       setLoading(false);
       router.replace(`/event/${eventData.slug}`);
@@ -104,7 +150,7 @@ const CreateEventPage = () => {
 
   return (
     <div>
-      {loading && <Spinner message='Creating event...' />}
+      {loading && <Spinner img='true' />}
       <div className='flex justify-around py-4 text-lg'>
         <p>Create an event</p>
       </div>
@@ -148,6 +194,7 @@ const CreateEventPage = () => {
             id='eventName'
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
+            value={formData.eventName}
           />
 
           <label
@@ -162,6 +209,7 @@ const CreateEventPage = () => {
             rows={5}
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
+            value={formData.description}
           />
 
           <div className='flex justify-between w-full pt-4'>
@@ -175,6 +223,7 @@ const CreateEventPage = () => {
                 max={formData.endDate ? formData.endDate : ''}
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
+                value={formData.startDate}
               />
             </div>
 
@@ -186,6 +235,7 @@ const CreateEventPage = () => {
                 id='startTime'
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
+                value={formData.startTime}
               />
             </div>
           </div>
@@ -205,6 +255,7 @@ const CreateEventPage = () => {
                 }
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
+                value={formData.endDate}
               />
             </div>
             <div className='flex flex-col'>
@@ -216,6 +267,7 @@ const CreateEventPage = () => {
                 placeholder='End Time'
                 onChange={handleInputChange}
                 className='w-40 h-10 p-2 bg-white border-2 rounded-md'
+                value={formData.endTime}
               />
             </div>
           </div>
@@ -232,6 +284,7 @@ const CreateEventPage = () => {
             id='venueName'
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
+            value={formData.venueName}
           />
 
           <label
@@ -246,6 +299,7 @@ const CreateEventPage = () => {
             id='venueAddress'
             onChange={handleInputChange}
             className='w-full p-2 border-2 rounded-md'
+            value={formData.venueAddress}
           />
           <div className='flex items-center h-20 pt-4'>
             <div className='min-w-fit'>
@@ -261,6 +315,7 @@ const CreateEventPage = () => {
                 id='hasMaxAttendees'
                 onChange={handleCheckboxChange}
                 className='w-4 h-4 mr-3 border-2 rounded-md'
+                checked={checked}
               />{' '}
             </div>
             {checked && (
@@ -277,6 +332,7 @@ const CreateEventPage = () => {
                   id='maxAttendees'
                   onChange={handleInputChange}
                   className='w-full p-2 border-2 rounded-md'
+                  value={formData.maxAttendees}
                 />
               </>
             )}
@@ -287,7 +343,7 @@ const CreateEventPage = () => {
             disabled={loading}
             className='self-center w-40 py-2 mt-6 text-white rounded-md bg-[#413A55]'
           >
-            Create
+            {event ? 'Update' : 'Create'}
           </button>
         </form>
       </div>

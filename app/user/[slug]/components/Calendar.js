@@ -42,7 +42,7 @@ const Calendar = () => {
       )}
       <AllEvents
         type='attendee'
-        message='your events to attend:'
+        message="events you RSVP'd to:"
       />
     </>
   );
