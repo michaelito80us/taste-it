@@ -23,7 +23,7 @@ const Spinner = ({ message, img }) => {
             )}
             {img && (
               <img
-                className='w-32 pt-10'
+                className='w-32 pt-10 animate-spin '
                 src='/images/logo.png'
                 alt='spinner'
               />
