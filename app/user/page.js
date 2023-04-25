@@ -1,29 +1,15 @@
 'use client';
 import { useRouter } from 'next/navigation';
-import { useEffect, useContext } from 'react';
-import auth from '../../lib/auth';
-import { UserContext } from './../context/userContext';
-import Spinner from './../components/Spinner';
+import { useEffect } from 'react';
 
 const UserPage = () => {
-  const { setAuthenticatedUser } = useContext(UserContext);
   const router = useRouter();
-  let data = false;
 
   useEffect(() => {
-    async function check() {
-      data = await auth();
-
-      if (data.user) {
-        setAuthenticatedUser(data.user);
-        router.push(`/user/${data.user.slug}`);
-      }
-      router.push('/auth/login');
-    }
-    check();
+    router.push('/');
   }, []);
 
-  return <>{!data && <Spinner img='true' />}</>;
+  return <></>;
 };
 
 export default UserPage;

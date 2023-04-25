@@ -14,6 +14,7 @@ import Spinner from '../../components/Spinner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import togglePublishEvent from '../../../lib/togglePublishEvent';
 
 const EventPage = () => {
   const [event, setEvent] = useState({});
@@ -70,6 +71,19 @@ const EventPage = () => {
   function manageOptions(e) {
     e.stopPropagation();
     setShowManageOptions(!showManageOptions);
+  }
+
+  async function handleTogglePublish() {
+    setShowManageOptions(false);
+    setEvent({ ...event, isActive: !event.isActive });
+
+    const res = await togglePublishEvent({
+      id: event.id,
+      slug: event.slug,
+      isActive: event.isActive,
+    });
+
+    console.log('res: ', res);
   }
 
   return (
@@ -206,7 +220,10 @@ const EventPage = () => {
                   view attendees
                   <hr className='w-full mt-2' />
                 </button>
-                <button className='w-full py-2 text-left'>
+                <button
+                  onClick={handleTogglePublish}
+                  className='w-full py-2 text-left'
+                >
                   publish/unpublish event
                 </button>
               </div>

@@ -62,7 +62,7 @@ const ShareEvent = ({ event }) => {
               }}
               className='flex flex-col items-center'
             >
-              <Image
+              <img
                 ref={ref}
                 src={event.pictureUrl}
                 className='object-cover w-12 h-12'
