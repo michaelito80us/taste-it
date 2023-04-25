@@ -52,18 +52,18 @@ const LoginPage = () => {
   }
 
   return (
-    <div className='flex flex-col items-center h-screen pb-24 bg-pri/60 text-tst-bg'>
+    <div className='fixed flex flex-col items-center w-screen h-screen pb-24 bg-pri/60 text-tst-bg'>
       <img
-        className='pt-10 my-32 w-52'
+        className='my-16 w-52'
         src='/images/logo.png'
         alt='logo'
       />
-      <div className='mb-32 text-lg'>
-        Welcome to taste.it.
-        <br />
-        manage all your events in one place.
-      </div>
-      <div className='fixed bottom-24'>
+      <div className='fixed bottom-0 pb-[10vh]'>
+        <div className='text-lg mb-[10vh]'>
+          Welcome to taste.it.
+          <br />
+          manage all your events in one place.
+        </div>
         {showRegister ? (
           <>
             <Register
