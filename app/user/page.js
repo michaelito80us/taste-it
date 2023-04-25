@@ -5,7 +5,7 @@ import auth from '../../lib/auth';
 import { UserContext } from './../context/userContext';
 import Spinner from './../components/Spinner';
 
-const page = () => {
+const UserPage = () => {
   const { setAuthenticatedUser } = useContext(UserContext);
   const router = useRouter();
   let data = false;
@@ -27,4 +27,4 @@ const page = () => {
   return <>{!data && <Spinner img='true' />}</>;
 };
 
-export default page;
+export default UserPage;

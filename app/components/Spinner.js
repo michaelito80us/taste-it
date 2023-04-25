@@ -23,6 +23,7 @@ const Spinner = ({ message, img }) => {
               <img
                 className='w-32 pt-10'
                 src='/images/logo.png'
+                alt='spinner'
               />
             )}
           </div>

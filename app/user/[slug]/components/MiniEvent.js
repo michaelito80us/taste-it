@@ -7,7 +7,7 @@ const MiniEvent = ({ event }) => {
         <div className='flex border-2 rounded-lg w-48 h-16 min-w-[12rem] mr-3'>
           <img
             src={event.image}
-            alt=''
+            alt='event image'
             className='object-cover w-2/6 mr-2 rounded-l-lg'
           />
           <div className='flex flex-col w-4/6 pr-2 justify-evenly'>

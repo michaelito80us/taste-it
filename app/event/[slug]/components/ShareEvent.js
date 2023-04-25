@@ -65,6 +65,7 @@ const ShareEvent = ({ event }) => {
                 ref={ref}
                 src={event.pictureUrl}
                 className='object-cover w-12 h-12'
+                alt='event image'
               />
               Poster
             </button>
@@ -78,6 +79,7 @@ const ShareEvent = ({ event }) => {
               <img
                 src='/images/QRcode.jpg'
                 className='w-12 h-12'
+                alt='QR code'
               />
               QR
             </button>

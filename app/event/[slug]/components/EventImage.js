@@ -22,6 +22,7 @@ const EventImage = ({ image }) => {
           onClick={() => setShowImage(true)}
           className='relative object-cover w-full h-[35vh] '
           src={image}
+          alt='event image'
         />
       </div>
       {showImage && (
@@ -33,6 +34,7 @@ const EventImage = ({ image }) => {
             onClick={stopPropagation}
             src={image}
             className='object-cover w-5/6'
+            alt='event image'
           />
         </div>
       )}

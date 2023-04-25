@@ -55,7 +55,7 @@ const LoginPage = () => {
       <img
         className='pt-10 my-32 w-52'
         src='/images/logo.png'
-        alt=''
+        alt='logo'
       />
       <div className='mb-32 text-lg'>
         Welcome to taste.it.
