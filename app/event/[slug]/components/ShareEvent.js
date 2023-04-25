@@ -101,7 +101,7 @@ const ShareEvent = ({ event }) => {
           >
             <QRCode
               id='eventQrCode'
-              value={baseUrl + '/event/' + event.slug}
+              value={'http://go-taste.it/event/' + event.slug}
               size={200}
               level={'H'}
             />

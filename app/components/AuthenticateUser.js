@@ -6,22 +6,27 @@ import { UserContext } from './../context/userContext';
 import Spinner from './Spinner';
 
 const AuthenticateUser = () => {
-  const { setAuthenticatedUser } = useContext(UserContext);
+  const { authenticatedUser, setAuthenticatedUser } = useContext(UserContext);
   const router = useRouter();
   let data = false;
 
   useEffect(() => {
-    async function check() {
-      data = await auth();
+    console.log('authenticatedUser', authenticatedUser);
+    if (!authenticatedUser.id) {
+      async function check() {
+        data = await auth();
 
-      if (data.user) {
-        setAuthenticatedUser(data.user);
-        router.push(`/user/${data.user.slug}`);
-      } else {
-        router.push('/auth/login');
+        if (!!data.user) {
+          setAuthenticatedUser(data.user);
+          router.push(`/user/${data.user.slug}`);
+        } else {
+          router.push('/auth/login');
+        }
       }
+      check();
+    } else {
+      router.push(`/user/${authenticatedUser.slug}`);
     }
-    check();
   }, []);
 
   return <>{!data && <Spinner img='true' />}</>;
