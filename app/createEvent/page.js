@@ -61,6 +61,8 @@ const CreateEventPage = () => {
 
   // set form data
 
+  console.log('formData after loading: ', formData);
+
   function handleCheckboxChange() {
     setChecked((prev) => !prev);
   }
@@ -104,27 +106,37 @@ const CreateEventPage = () => {
     let endDateTime = new Date(`${formData.endDate} ${formData.endTime}`);
     // submit photo to cloudinary
     async function uploadImage() {
-      const imageForm = new FormData();
-      imageForm.append('file', file);
-      imageForm.append('upload_preset', 'iynvvsvv');
+      let newFormData;
 
-      const response = await fetch(
-        'https://api.cloudinary.com/v1_1/dckqfwvh1/image/upload',
-        {
-          method: 'POST',
-          body: imageForm,
-        }
-      );
+      if (!formData.pictureUrl) {
+        const imageForm = new FormData();
+        imageForm.append('file', file);
+        imageForm.append('upload_preset', 'iynvvsvv');
 
-      const cloudinaryUpload = await response.json();
+        const response = await fetch(
+          'https://api.cloudinary.com/v1_1/dckqfwvh1/image/upload',
+          {
+            method: 'POST',
+            body: imageForm,
+          }
+        );
 
-      const newFormData = {
-        ...formData,
-        pictureUrl: cloudinaryUpload.secure_url,
-        startDateTime: startDateTime.toISOString(),
-        endDateTime: endDateTime.toISOString(),
-      };
+        const cloudinaryUpload = await response.json();
 
+        newFormData = {
+          ...formData,
+          pictureUrl: cloudinaryUpload.secure_url,
+          startDateTime: startDateTime.toISOString(),
+          endDateTime: endDateTime.toISOString(),
+        };
+      } else {
+        newFormData = {
+          ...formData,
+          startDateTime: startDateTime.toISOString(),
+          endDateTime: endDateTime.toISOString(),
+        };
+      }
+      console.log('newFormData: ', newFormData);
       setFormData(newFormData);
 
       const eventData = await createOrUpdateEvent(newFormData);
