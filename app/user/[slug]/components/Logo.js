@@ -10,8 +10,8 @@ const Logo = () => {
       className='cursor-pointer md:block w-fit'
       alt='Logo'
       src='/images/logo.png'
-      width='65'
-      height='65'
+      width={65}
+      height={65}
     />
   );
 };

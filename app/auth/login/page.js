@@ -53,7 +53,7 @@ const LoginPage = () => {
 
   return (
     <div className='flex flex-col items-center h-screen pb-24 bg-pri/60 text-tst-bg'>
-      <Image
+      <img
         className='pt-10 my-32 w-52'
         src='/images/logo.png'
         alt='logo'

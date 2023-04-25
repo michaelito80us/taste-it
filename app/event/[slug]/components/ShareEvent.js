@@ -81,6 +81,8 @@ const ShareEvent = ({ event }) => {
                 src='/images/QRcode.jpg'
                 className='w-12 h-12'
                 alt='QR code'
+                width={48}
+                height={48}
               />
               QR
             </button>

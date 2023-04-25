@@ -11,7 +11,7 @@ const Event = ({ event }) => {
   return (
     <Link href={`/event/${event.slug}`}>
       <div className='mx-auto my-4 border rounded-md shadow-md shadow-sec/10 drop-shadow-md'>
-        <Image
+        <img
           className='object-cover w-full h-48 rounded-t-md'
           src={event.pictureUrl}
           alt='event picture'

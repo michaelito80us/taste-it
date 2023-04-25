@@ -8,8 +8,8 @@ const Avatar = () => {
       className='rounded-full'
       alt='Avatar'
       src='/images/placeholder.png'
-      width='80'
-      height='80'
+      width={80}
+      height={80}
     />
   );
 };

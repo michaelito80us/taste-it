@@ -118,6 +118,8 @@ const EventPage = () => {
             src='/images/calendar.png'
             className='w-4 h-4 mr-3'
             alt='calendar icon'
+            width={16}
+            height={16}
           />
           {event.dateString}
         </div>
@@ -126,12 +128,14 @@ const EventPage = () => {
             src='/images/time.png'
             className='w-4 h-4 mr-3'
             alt='clock icon'
+            width={16}
+            height={16}
           />
           {event.timeString}
         </div>
         <div className='flex items-center text-lg'>
           <div className='min-w-[1rem] mr-3'>
-            <Image
+            <img
               src='/images/location.png'
               className='h-4 '
               alt='location icon'

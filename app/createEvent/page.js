@@ -170,7 +170,7 @@ const CreateEventPage = () => {
             htmlFor='image'
           >
             {image ? (
-              <Image
+              <img
                 src={image}
                 className='object-cover w-full mx-auto rounded-md h-52'
                 alt='event poster'
