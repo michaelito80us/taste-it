@@ -16,7 +16,7 @@ export default function UserPage() {
     if (!authenticatedUser.id) {
       async function check() {
         data = await auth();
-
+        console.log('data received from auth(): ', data);
         if (!!data.user) {
           setAuthenticatedUser(data.user);
           router.push(`/user/${data.user.slug}`);

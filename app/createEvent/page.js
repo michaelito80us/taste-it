@@ -33,7 +33,7 @@ const CreateEventPage = () => {
 
   const searchParams = useSearchParams();
   const editSlug = searchParams.get('edit');
-
+  console.log('authenticatedUser', authenticatedUser);
   useEffect(() => {
     if (!authenticatedUser.id) {
       router.push('/');

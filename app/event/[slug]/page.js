@@ -34,7 +34,7 @@ const EventPage = () => {
 
       console.log('user data for this event: ', data);
 
-      if (!data?.error) {
+      if (!!data.user) {
         setAuthenticatedUser(data.user);
       }
     };

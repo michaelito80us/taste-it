@@ -39,6 +39,8 @@ export function timeToString(startTime, endTime) {
   const hour2 = timeObj2.getHours();
   const minute1 = timeObj1.getMinutes();
   const minute2 = timeObj2.getMinutes();
-  const timeStr = `${hour1}:${minute1} - ${hour2}:${minute2}`;
+  const timeStr = `${hour1}:${minute1 < 10 ? '0' : ''}${minute1} - ${hour2}:${
+    minute1 < 10 ? '0' : ''
+  }${minute2}`;
   return timeStr;
 }
