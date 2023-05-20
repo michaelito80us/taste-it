@@ -37,30 +37,31 @@ const CreateEventPage = () => {
   useEffect(() => {
     if (localStorage.getItem('user')) {
       setAuthenticatedUser(JSON.parse(localStorage.getItem('user')));
-    }
+      if (!authenticatedUser.id) {
+        router.push('/');
+      } else if (editSlug) {
+        console.log('editSlug: ', editSlug);
+        // get event details from db
 
-    if (!authenticatedUser.id) {
+        const getEventData = async () => {
+          const eventData = await getEvent(editSlug);
+          console.log('eventData: ', eventData);
+
+          // setFormData(eventData.event);
+          setFormData({
+            ...eventData.event,
+            oldMaxAttendees: eventData.event.maxAttendees,
+          });
+
+          setImage(eventData.event.pictureUrl);
+          setChecked(eventData.event.maxAttendees > 0);
+          setLoading(false);
+        };
+
+        getEventData();
+      }
+    } else {
       router.push('/');
-    } else if (editSlug) {
-      console.log('editSlug: ', editSlug);
-      // get event details from db
-
-      const getEventData = async () => {
-        const eventData = await getEvent(editSlug);
-        console.log('eventData: ', eventData);
-
-        // setFormData(eventData.event);
-        setFormData({
-          ...eventData.event,
-          oldMaxAttendees: eventData.event.maxAttendees,
-        });
-
-        setImage(eventData.event.pictureUrl);
-        setChecked(eventData.event.maxAttendees > 0);
-        setLoading(false);
-      };
-
-      getEventData();
     }
   }, []);
 
