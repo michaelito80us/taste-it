@@ -28,7 +28,7 @@ const Calendar = () => {
   return (
     <>
       {history.length > 0 && (
-        <div className='h-32 p-4'>
+        <div className='h-32 p-4  max-w-[500px] mx-auto border-x border-black/200'>
           <div className='pb-2'>recently viewed:</div>
           <div className='flex overflow-x-scroll no-scrollbar '>
             {history.map((event) => (

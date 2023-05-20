@@ -28,7 +28,7 @@ export default function UserMainPage() {
   return (
     <>
       {!authenticatedUser && <AuthenticateUser />}
-      <div className='sticky top-0 z-50 flex justify-center py-4 mx-auto bg-tst-bg'>
+      <div className='sticky top-0 z-50 flex justify-center py-4 mx-auto bg-tst-bg max-w-[500px] border-x border-black/200'>
         <Logo />
       </div>
       {navbar === 'calendar' && <Calendar />}

@@ -11,6 +11,10 @@ const AuthenticateUser = () => {
   let data = false;
 
   useEffect(() => {
+    if (!authenticatedUser.id && localStorage.getItem('user')) {
+      setAuthenticatedUser(JSON.parse(localStorage.getItem('user')));
+    }
+
     console.log('authenticatedUser', authenticatedUser);
     if (!authenticatedUser.id) {
       async function check() {

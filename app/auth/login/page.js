@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useContext, useState } from 'react';
+import { useRef, useContext, useState, useEffect } from 'react';
 import { UserContext } from '../../context/userContext';
 import login from '../../../lib/login';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -20,6 +20,15 @@ const LoginPage = () => {
 
   const redirectSlug = searchParams.get('redirectBack');
 
+  useEffect(() => {
+    if (!authenticatedUser.id && localStorage.getItem('user')) {
+      const user = JSON.parse(localStorage.getItem('user'));
+      setAuthenticatedUser(user);
+      if (!!redirectSlug) router.push(`/event/${redirectSlug}`);
+      else router.push(`/user/${user.slug}`);
+    }
+  }, []);
+
   async function onSubmit(e) {
     e.preventDefault();
 
@@ -27,10 +36,12 @@ const LoginPage = () => {
     if (showRegister) {
       setShowSpinner(true);
       data = await login(email.current, password.current, name.current);
+      localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.removeItem('history');
     } else {
       setShowSpinner(true);
       data = await login(email.current, password.current);
+      localStorage.setItem('user', JSON.stringify(data.user));
     }
 
     console.log('FROM LOGIN');
@@ -52,7 +63,7 @@ const LoginPage = () => {
   }
 
   return (
-    <div className='fixed flex flex-col items-center w-screen h-screen pb-24 bg-pri/60 text-tst-bg'>
+    <div className='fixed flex flex-col items-center w-screen h-screen pb-24 bg-pri/60 text-tst-bg max-w-[500px] left-0 right-0 mx-auto'>
       <img
         className='my-16 w-52'
         src='/images/logo.png'

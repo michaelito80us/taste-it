@@ -33,7 +33,7 @@ const AllEvents = ({ type, message }) => {
   console.log('events', events);
 
   return (
-    <div className='p-4 pb-28'>
+    <div className='p-4 pb-28 max-w-[500px] mx-auto border-x border-black/200 min-h-screen'>
       <p>{message}</p>
 
       <div className='flex justify-between px-12 mt-4 '>

@@ -87,7 +87,7 @@ const EventPage = () => {
   }
 
   return (
-    <>
+    <div className='max-w-[500px] mx-auto border-black/200 border-x'>
       {showSpinner && <Spinner img='true' />}
       {miniEvent.current.name && (
         <UpdateHistory miniEvent={miniEvent.current} />
@@ -96,10 +96,10 @@ const EventPage = () => {
 
       <div
         onClick={() => setShowManageOptions(false)}
-        className='mt-[-30px] bg-tst-bg rounded-full relative h-16 p-4 '
+        className='mt-[-30px] bg-tst-bg rounded-full relative h-16 p-4 max-w-[500px]'
       >
         <div
-          className={`flex ${
+          className={` flex ${
             event.eventCreatorId === authenticatedUser.id
               ? 'justify-between'
               : 'justify-end'
@@ -123,6 +123,8 @@ const EventPage = () => {
             </div>
           )}
         </div>
+      </div>
+      <div className='p-4'>
         <div className='mb-3 text-2xl font-bold tracking-wide capitalize break-normal text-pri'>
           {event.eventName}
         </div>
@@ -186,9 +188,9 @@ const EventPage = () => {
 
       <div
         onClick={() => setShowManageOptions(false)}
-        className='fixed bottom-0 flex flex-col items-center'
+        className='fixed bottom-0 flex flex-col items-center max-w-[500px] w-full border-x border-black/200'
       >
-        <div className='w-screen h-12 bg-gradient-to-t from-tst-bg to-transparent'></div>
+        <div className='w-full h-12 bg-gradient-to-t from-tst-bg to-transparent'></div>
         {event.eventCreatorId === authenticatedUser.id && (
           <div className='relative flex justify-end w-full pr-4 bg-tst-bg'>
             <button
@@ -230,14 +232,14 @@ const EventPage = () => {
             )}
           </div>
         )}
-        <div className='pt-3 pb-6 bg-tst-bg'>
+        <div className='w-full pt-3 pb-6 bg-tst-bg'>
           <JoinEvent
             event={event}
             setAttendee={setAttendee}
           />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

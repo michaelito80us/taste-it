@@ -52,7 +52,7 @@ const ShareEvent = ({ event }) => {
           onClick={() => setShowShare(false)}
         >
           <div
-            className='flex w-4/6 py-5 rounded-md bg-tst-bg justify-evenly'
+            className='flex w-4/6 py-5 rounded-md bg-tst-bg justify-evenly max-w-[500px] border-x border-black/200'
             onClick={stopPropagation}
           >
             <button

@@ -35,6 +35,10 @@ const CreateEventPage = () => {
   const editSlug = searchParams.get('edit');
   console.log('authenticatedUser', authenticatedUser);
   useEffect(() => {
+    if (localStorage.getItem('user')) {
+      setAuthenticatedUser(JSON.parse(localStorage.getItem('user')));
+    }
+
     if (!authenticatedUser.id) {
       router.push('/');
     } else if (editSlug) {
@@ -152,10 +156,10 @@ const CreateEventPage = () => {
   return (
     <div>
       {loading && <Spinner img='true' />}
-      <div className='flex justify-around py-4 text-lg'>
+      <div className='flex justify-around py-4 text-lg max-w-[500px] mx-auto border-x border-black/200'>
         <p>Create an event</p>
       </div>
-      <div className='px-3 pb-20'>
+      <div className='px-3 pb-20 max-w-[500px] mx-auto border-x border-black/200'>
         <form className='flex flex-col'>
           <input
             accept='image/*'

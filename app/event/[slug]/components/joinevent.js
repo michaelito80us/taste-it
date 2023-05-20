@@ -20,7 +20,7 @@ const JoinEvent = ({ event, setAttendee }) => {
 
   return (
     <>
-      <div className='flex w-screen px-4'>
+      <div className='flex w-full px-4'>
         {!event.isUserGoing &&
         event.maxAttendees > 0 &&
         event.totalAttendees === event.maxAttendees ? (
