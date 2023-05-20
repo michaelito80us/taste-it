@@ -32,32 +32,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Screenshots
 
-### Loading Spinner
-![Spinner](https://github.com/michaelito80us/taste-it/assets/67226592/0a9efbed-28dc-412c-b6a8-a5058a36d636)
+### Loading Spinner, Login Page, Calendar Page, Event Creartion
+![Group 1](https://github.com/michaelito80us/taste-it/assets/67226592/1c06d7c9-d596-494f-9e07-2f4705e3d423)
 
-### Login Page
-![Login](https://github.com/michaelito80us/taste-it/assets/67226592/924c9717-fe66-4463-b42a-b943f29c62b2)
+### Event Management, Details Page, Share with Poster
+![Group 2](https://github.com/michaelito80us/taste-it/assets/67226592/852b0ba3-ca0b-424a-b43d-f0c5a292a436)
 
-### Calendar Page
-This is where users can see the events they have signed up for.
-![calendar](https://github.com/michaelito80us/taste-it/assets/67226592/634db40e-8384-4879-9e55-c7769aab7620)
-
-### Event Details Page
-![Event Details](https://github.com/michaelito80us/taste-it/assets/67226592/8482f770-b0f2-4f20-84f0-cad851e84bc4)
-
-### Event Share Page
-![Share](https://github.com/michaelito80us/taste-it/assets/67226592/765f5070-1fb4-4988-89b1-fd286c3f4847)
-
-### Event Poster Page
-This includes the QR code.
-![Share with poster](https://github.com/michaelito80us/taste-it/assets/67226592/2b1a9efa-4051-4fd7-afd9-8a9a61a6f362)
-
-### Event Creation Page
-![Create Event](https://github.com/michaelito80us/taste-it/assets/67226592/f8b5be32-c14b-4164-ab15-5f8c2ae7f98c)
-
-### Event Management Page
-This is the interface for event creators.
-![event admin](https://github.com/michaelito80us/taste-it/assets/67226592/8a49eb8e-b86c-4159-8cfe-c0e0639dfa2e)
 
 ## Features
 
